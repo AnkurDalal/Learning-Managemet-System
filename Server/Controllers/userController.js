@@ -1,10 +1,10 @@
 import User from "../Models/user.js";
-import { Purchase } from "../Models/purchase.js";
-import User from "../Models/user.js";
+import Purchase  from "../Models/purchase.js";
+
 import Stripe from "stripe";
 import Course from "../Models/course.js";
 import { courseProgress } from "../Models/courseProgress.js";
-import { use } from "react";
+
 
 export const getUserData = async (req, res) => {
   try {
