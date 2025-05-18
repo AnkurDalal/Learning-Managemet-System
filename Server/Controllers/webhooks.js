@@ -47,6 +47,7 @@ export const clerkWebhooks = async (req, resp) => {
         return resp
           .status(400)
           .json({ success: false, message: "Unhandled event type" });
+        return resp.status(400).json({ success: false, message: "Unhandled event type" });
     }
   } catch (error) {
     console.error("Webhook error:", error.message);
