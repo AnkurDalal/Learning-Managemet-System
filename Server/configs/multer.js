@@ -1,7 +1,8 @@
 import multer from "multer";
-const storage = multer.diskStorage({
 
-})
-const upload = multer({storage})
+// Store in memory for Cloudinary upload
+const storage = multer.diskStorage({});
+
+const upload = multer({ storage });
 
 export default upload;

@@ -1,7 +1,5 @@
-import Course from "../Models/course.js";
+import Course from "../Models/course.js"; // make sure to import Course model
 
-
-//Get all courses
 export const getAllCourses = async (req, res) => {
   try {
     const courses = await Course.find({ isPublished: true })
@@ -12,12 +10,12 @@ export const getAllCourses = async (req, res) => {
     res.json({ success: false, message: error.message });
   }
 };
-//Get course by id
+
 export const getCourseId = async (req, res) => {
   const { id } = req.params;
   try {
     const courseData = await Course.findById(id).populate({ path: "educator" });
-    //remove lecture Url if isPreview is false
+
     courseData.courseContent.forEach((chapter) => {
       chapter.chapterContent.forEach((lecture) => {
         if (!lecture.isPreviewFree) {
@@ -25,6 +23,7 @@ export const getCourseId = async (req, res) => {
         }
       });
     });
+
     res.json({ success: true, courseData });
   } catch (error) {
     res.json({ success: false, message: error.message });

@@ -17,9 +17,10 @@ async function startServer() {
     await connectDb();
     await connectCloudinary();
 
-    // Middleware
+    // Global middleware
     app.use(cors());
     app.use(clerkMiddleware());
+    app.use(express.json()); // parse JSON bodies globally
 
     // Routes
     app.get("/", (req, res) => {
@@ -30,11 +31,21 @@ async function startServer() {
     app.use("/api/educator", express.json(), educatorRouter);
     app.use("/api/course", express.json(), courseRouter);
     app.use("/api/user", express.json(), userRouter);
+
+    // Stripe webhook must parse raw body
     app.post(
       "/stripe",
       express.raw({ type: "application/json" }),
       stripeWebhooks
     );
+
+    // Basic error handler middleware (optional)
+    app.use((err, req, res, next) => {
+      console.error(err.stack);
+      res
+        .status(500)
+        .json({ success: false, message: "Internal Server Error" });
+    });
 
     const PORT = process.env.PORT || 5000;
     app.listen(PORT, () => {
